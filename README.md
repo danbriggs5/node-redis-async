@@ -1,5 +1,5 @@
 # node-redis-async
-Plugin for the [redis](https://github.com/NodeRedis/node_redis) package. Adds a useful `.cmd()` method the module.
+Plugin for the [redis](https://github.com/NodeRedis/node_redis) package. Adds a useful `.cmd()` method to the redis client.
 
 ### Installation
 ```shell
@@ -11,13 +11,14 @@ npm install --save redis
 
 ### Usage
 #### Basic
+All commands are replaced by the promise-based `.cmd()` method.
 ```javascript
 const redis = require('redis');
-require('node-redis-async');
+require('node-redis-async'); // Load the plugin
 
 const client = redis.createClient(6379, 'redis');
 
-// node-redis-async
+// node-redis-async usage
 client.cmd(['set', 'key', 'val'])
 	.then(res => console.log(res))
 	.catch(err => console.error(err));
@@ -33,7 +34,7 @@ client.set('key', 'val', (err, res) => {
 ```
 
 #### Multi
-Simply pass an array with multiple commands and they will be performed atomically. This performs the necessary `multi()` and `exec()` calls under the hood.
+Simply pass an array with multiple commands and they will be performed atomically. This removes boilerplate code by performing the necessary `multi()` and `exec()` calls under the hood.
 ```javascript
 client.cmd([
 	['get', 'key'],
